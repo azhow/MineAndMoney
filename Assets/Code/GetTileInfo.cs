@@ -41,18 +41,18 @@ public class GetTileInfo : MonoBehaviour
         {
             Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3Int coordinate = m_Grid.WorldToCell(mouseWorldPos);
-            m_Text.text = m_Background.GetTile(coordinate).name;
-        }
-        else if ( Input.GetMouseButtonDown(1) )
-        {
-            Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3Int coordinate = m_Grid.WorldToCell(mouseWorldPos);
             // Erases last highlighted tile
             m_UILayer.SetTile(m_LastTileCoordinate, null);
             // Sets new tile
             m_UILayer.SetTile(coordinate, m_Tile);
             // Updates last coordinate
             m_LastTileCoordinate = coordinate;
+        }
+        else if ( Input.GetMouseButtonDown(1) )
+        {
+            Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3Int coordinate = m_Grid.WorldToCell(mouseWorldPos);
+            m_Text.text = m_Background.GetTile(coordinate).name;
         }
     }
 }
