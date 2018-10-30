@@ -11,9 +11,13 @@ public class GetTileInfo : MonoBehaviour
     private UnityEngine.Tilemaps.Tilemap m_Background;
     private UnityEngine.Tilemaps.Tilemap m_Minerals;
     private UnityEngine.Tilemaps.Tilemap m_Buildings;
+    private UnityEngine.Tilemaps.Tilemap m_UILayer;
+    private Vector3Int m_LastTileCoordinate;
 
     void Start()
     {
+        // Set outside of the map
+        m_LastTileCoordinate = new Vector3Int(-1, -1, -1);
         // Assigns the correct tilemaps
         UnityEngine.Tilemaps.Tilemap[] tilemaps = m_Grid.GetComponentsInChildren<UnityEngine.Tilemaps.Tilemap>();
         foreach ( UnityEngine.Tilemaps.Tilemap tilemap in tilemaps )
@@ -24,6 +28,8 @@ public class GetTileInfo : MonoBehaviour
                 m_Minerals = tilemap;
             else if ( tilemap.name == "Buildings" )
                 m_Buildings = tilemap;
+            else if ( tilemap.name == "UILayer" )
+                m_UILayer = tilemap;
         }
     }
 
@@ -41,7 +47,12 @@ public class GetTileInfo : MonoBehaviour
         {
             Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3Int coordinate = m_Grid.WorldToCell(mouseWorldPos);
-            m_Minerals.SetTile(coordinate, m_Tile);
+            // Erases last highlighted tile
+            m_UILayer.SetTile(m_LastTileCoordinate, null);
+            // Sets new tile
+            m_UILayer.SetTile(coordinate, m_Tile);
+            // Updates last coordinate
+            m_LastTileCoordinate = coordinate;
         }
     }
 }
