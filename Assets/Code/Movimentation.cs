@@ -3,10 +3,9 @@ using System.Collections;
 
 public class Movimentation : MonoBehaviour
 {
-    public UnityEngine.Tilemaps.Tilemap m_Tilemap;
-    public Camera m_Camera;
-    public float m_mainSpeed = 10.0f;   // Regular speed
-    public float m_camSens = 0.15f;   // Mouse sensitivity
+    // Background tilemap is used to set boundaries for the camera movement
+    public UnityEngine.Tilemaps.Tilemap m_BackgroundTilemap;
+    public float m_CameraSpeed = 10.0f;   // Camera speed
 
     private float m_totalRun = 1.0f;
     // Boundary values
@@ -15,22 +14,24 @@ public class Movimentation : MonoBehaviour
     private float m_MIN_Y;
     private float m_MAX_Y;
 
-    void Update()
+    public void 
+        Update()
     {
         // Boundary calculation
-        float height = 2f * m_Camera.orthographicSize;
-        float width = height * m_Camera.aspect;
-        // Set boundary values
-        m_MIN_X = m_Tilemap.cellBounds.xMin + (width / 2);
-        m_MAX_X = m_Tilemap.cellBounds.xMax - (width / 2);
-        m_MIN_Y = m_Tilemap.cellBounds.yMin + (height / 2);
-        m_MAX_Y = m_Tilemap.cellBounds.yMax - (height / 2);
+        float height = 2f * Camera.main.orthographicSize;
+        float width = height * Camera.main.aspect;
+        // Set boundary values (considers the tilemap to be a rectangle)
+        m_MIN_X = m_BackgroundTilemap.cellBounds.xMin + (width / 2);
+        m_MAX_X = m_BackgroundTilemap.cellBounds.xMax - (width / 2);
+        m_MIN_Y = m_BackgroundTilemap.cellBounds.yMin + (height / 2);
+        m_MAX_Y = m_BackgroundTilemap.cellBounds.yMax - (height / 2);
 
         // Keyboard commands
         Vector3 p = GetBaseInput();
 
+        // Calculates new position and camera size
         m_totalRun = Mathf.Clamp(m_totalRun * 0.5f, 1f, 1000f);
-        p *= m_mainSpeed;
+        p *= m_CameraSpeed;
 
         p *= Time.deltaTime;
         Vector3 newPos = transform.position;
@@ -39,12 +40,12 @@ public class Movimentation : MonoBehaviour
         transform.position = new Vector3(
             Mathf.Clamp(transform.position.x, m_MIN_X, m_MAX_X),
             Mathf.Clamp(transform.position.y, m_MIN_Y, m_MAX_Y),
-            Mathf.Clamp(transform.position.z, 0, 0)
-            );
+            Mathf.Clamp(transform.position.z, 0, 0));
     }
 
     // Returns the basic values, if it's 0 than it's not active.
-    private Vector3 GetBaseInput()
+    private Vector3
+        GetBaseInput()
     {
         Vector3 p_Velocity = new Vector3();
         int screenWidth = Screen.width;
@@ -66,11 +67,13 @@ public class Movimentation : MonoBehaviour
         if ( Input.GetKey(KeyCode.RightArrow) || Input.mousePosition.x > screenWidth - 30 )
             p_Velocity += new Vector3(1, 0, 0);
 
-        if ( Input.GetAxis("Mouse ScrollWheel") > 0f && m_Camera.orthographicSize >= 2f )
-            m_Camera.orthographicSize /= 1.05f;
-
-        if ( Input.GetAxis("Mouse ScrollWheel") < 0f && m_Camera.orthographicSize <= 7f )
-            m_Camera.orthographicSize /= 0.95f;
+        // Zoom in with mouse scroll or keypad +
+        if ( (Input.GetAxis("Mouse ScrollWheel") > 0f || Input.GetKeyDown(KeyCode.KeypadPlus)) && Camera.main.orthographicSize >= 2f )
+            Camera.main.orthographicSize /= 1.05f;
+        
+        // Zoom out with mouse scroll or keypad -
+        if ( (Input.GetAxis("Mouse ScrollWheel") < 0f || Input.GetKeyDown(KeyCode.KeypadMinus)) && Camera.main.orthographicSize <= 7f )
+            Camera.main.orthographicSize /= 0.95f;
 
         return p_Velocity;
     }

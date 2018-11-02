@@ -1,22 +1,33 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PauseHitEscape : MonoBehaviour
 {
-    public Transform m_canvas;
-    private bool m_status = false;
+    // Pause canvas
+    public Transform m_Canvas;
+    // Active status
+    private bool m_ActiveStatus = false;
 
     // Update is called once per frame
     void
         Update()
     {
+        // If hit Esc then pauses the game
         if ( Input.GetKeyDown(KeyCode.Escape) )
         {
-            m_canvas.gameObject.SetActive(!m_status);
-            m_status = !m_status;
-            if ( m_status ) Time.timeScale = 0;
-            else Time.timeScale = 1;
+            // Set new status
+            m_Canvas.gameObject.SetActive(!m_ActiveStatus);
+            // Updates status
+            m_ActiveStatus = !m_ActiveStatus;
+            // Pauses the time passage
+            if ( m_ActiveStatus )
+            {
+                Time.timeScale = 0;
+            }
+            // Unpauses the time passage
+            else
+            {
+                Time.timeScale = 1;
+            }
         }
 
     }

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Unity;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -10,33 +6,50 @@ using UnityEditor;
 
 public class CResourceBehaviour : MonoBehaviour
 {
-    enum EResources
+    // Resource sprites
+    public Sprite[] m_Sprites;
+
+    // Types of resources
+    public enum EResources
     {
-        uranium = 0,
-        iron = 1,
-        copper = 2,
+        UraniumOre = 0,
+        IronOre = 1,
+        CopperOre = 2,
         NUM_OF_RESOURCES = 3
     }
-
-    private const int mc_MaxResource = 1000;
-    private const int mc_MinResource = 200;
-
+    // Decay amount per second
     public double m_DecayAmountPerSecond = 50;
-    public bool m_HasBuilding = false;
 
-    private EResources m_Resource;
+    // Maximum quantity of resources
+    private const int mc_MaxResource = 1000;
+    // Minimum quantity of resources
+    private const int mc_MinResource = 200;
+    // Being extracted or not
+    private bool m_HasBuilding = false;
+    // Type of resource
+    private EResources m_ResourceType;
+    // Quantity remaining
     private double m_ResourceAmount;
 
     // Instantiates the tile
-    void Start()
+    public void
+        Start()
     {
-        System.Random randomGen = new System.Random();
-        m_Resource = (EResources)randomGen.Next((int)EResources.NUM_OF_RESOURCES);
+        // Uses the object instanceID as seed to avoid getting the same number
+        System.Random randomGen = new System.Random(GetInstanceID());
+        // Choose resource type
+        m_ResourceType = (EResources)randomGen.Next((int)EResources.NUM_OF_RESOURCES);
+        // Sets the initial amount
         m_ResourceAmount = UnityEngine.Random.Range(mc_MinResource, mc_MaxResource);
+
+        // Sets the sprite of parent to be the correct one (assumes that the script sprites are in the same order as the enumeration).
+        SpriteRenderer parentSpriteRenderer = GetComponentsInParent<SpriteRenderer>()[0];
+        parentSpriteRenderer.sprite = m_Sprites[(int)m_ResourceType];
     }
 
     // Update is called once per frame
-    void Update()
+    public void
+        Update()
     {
         // Only if it is being explored you should decrease deposit amount
         if ( m_HasBuilding )
@@ -48,16 +61,38 @@ public class CResourceBehaviour : MonoBehaviour
             {
                 m_ResourceAmount -= m_DecayAmountPerSecond * Time.deltaTime;
             }
+            // Sets to zero
+            else
+            {
+                m_ResourceAmount = 0;
+            }
         }
     }
 
-    public void SetResourceAmount( double newValue )
+    /// <summary>
+    /// Returns the data about the resource deposit.
+    /// </summary>
+    /// <param name="resourceType"></param>
+    /// <param name="resourceAmount"></param>
+    /// <param name="hasBuilding"></param>
+    /// <returns></returns>
+    public bool
+        GetResourceInfo( out EResources resourceType, out double resourceAmount, out bool hasBuilding )
     {
-        m_ResourceAmount = newValue;
+        resourceType = m_ResourceType;
+        resourceAmount = m_ResourceAmount;
+        hasBuilding = m_HasBuilding;
+
+        return true;
     }
 
-    public double GetResourceAmount()
+    /// <summary>
+    /// Returns an integer saying the amount of resources available in the deposit (used in the UI).
+    /// </summary>
+    /// <returns></returns>
+    public int
+        GetResourceAmount()
     {
-        return m_ResourceAmount;
+        return (int)Math.Round(m_ResourceAmount);
     }
 }
