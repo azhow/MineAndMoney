@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ public class GetTileInfo : MonoBehaviour
     private UnityEngine.Tilemaps.Tilemap m_Minerals;
     private UnityEngine.Tilemaps.Tilemap m_Buildings;
     private UnityEngine.Tilemaps.Tilemap m_UILayer;
+    private Dictionary<Vector3Int, Transform> m_Objects;
     private Vector3Int m_LastTileCoordinate;
 
     void Start()
@@ -30,6 +32,14 @@ public class GetTileInfo : MonoBehaviour
                 m_Buildings = tilemap;
             else if ( tilemap.name == "UILayer" )
                 m_UILayer = tilemap;
+        }
+
+        m_Objects = new Dictionary<Vector3Int, Transform>();
+        // Stores the position and object in dictionary
+        foreach ( Transform t in m_Minerals.GetComponentInChildren<Transform>() )
+        {
+            Vector3Int objPos = m_Grid.WorldToCell(t.position);
+            m_Objects.Add(objPos, t);
         }
     }
 
@@ -52,7 +62,14 @@ public class GetTileInfo : MonoBehaviour
         {
             Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3Int coordinate = m_Grid.WorldToCell(mouseWorldPos);
-            m_Text.text = m_Background.GetTile(coordinate).name;
+
+            // Detects if the tile clicked has any object
+            if ( m_Objects.ContainsKey(coordinate) )
+            {
+                Debug.Log(m_Objects[coordinate].gameObject.GetComponent<CResourceBehaviour>().GetResourceAmount());
+                // Sets attribute of the clicked object
+                m_Objects[coordinate].gameObject.GetComponent<CResourceBehaviour>().m_HasBuilding = true;
+            }
         }
     }
 }
