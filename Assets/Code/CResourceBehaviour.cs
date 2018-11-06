@@ -15,7 +15,10 @@ public class CResourceBehaviour : MonoBehaviour
         UraniumOre = 0,
         IronOre = 1,
         CopperOre = 2,
-        NUM_OF_RESOURCES = 3
+        NUM_OF_MINERAL_RESOURCES = 3,
+        Energy = 4,
+        RealEstate = 5,
+        TOTAL_NUM_OF_RESOURCES = 6
     }
     // Decay amount per second
     public double m_DecayAmountPerSecond = 50;
@@ -38,7 +41,7 @@ public class CResourceBehaviour : MonoBehaviour
         // Uses the object instanceID as seed to avoid getting the same number
         System.Random randomGen = new System.Random(GetInstanceID());
         // Choose resource type
-        m_ResourceType = (EResources)randomGen.Next((int)EResources.NUM_OF_RESOURCES);
+        m_ResourceType = (EResources)randomGen.Next((int)EResources.NUM_OF_MINERAL_RESOURCES);
         // Sets the initial amount
         m_ResourceAmount = UnityEngine.Random.Range(mc_MinResource, mc_MaxResource);
 

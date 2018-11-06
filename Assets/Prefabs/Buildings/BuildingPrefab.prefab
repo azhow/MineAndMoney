@@ -19,10 +19,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4149690065259824}
-  - component: {fileID: 114702469543919828}
   - component: {fileID: 212068138916412082}
+  - component: {fileID: 114929650553549676}
   m_Layer: 0
-  m_Name: ResourcePrefab
+  m_Name: BuildingPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41,7 +41,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114702469543919828
+--- !u!114 &114929650553549676
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -49,14 +49,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1828871602242650}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 508a6e381e8d72d49a3505e439d11964, type: 3}
+  m_Script: {fileID: 11500000, guid: 7a03422e4f0e57a4ab1e3e358e4b380d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Sprites:
-  - {fileID: 21300000, guid: ba0a021d48f5ea64bbcd4a022bd35951, type: 3}
-  - {fileID: 21300000, guid: 856b1a6e5dcf4da4889a5b533f119f90, type: 3}
-  - {fileID: 21300000, guid: 847e4b5efb9a4f34e8372fcc8f0f4da3, type: 3}
-  m_DecayAmountPerSecond: 50
+  - {fileID: 21300000, guid: bcd7912880facf34b83764767f90e323, type: 3}
 --- !u!212 &212068138916412082
 SpriteRenderer:
   m_ObjectHideFlags: 1
