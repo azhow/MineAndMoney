@@ -1743,11 +1743,6 @@ Prefab:
       propertyPath: m_canvas
       value: 
       objectReference: {fileID: 12764746}
-    - target: {fileID: 114042395461719696, guid: 58e0ca40c1fb2e949939024559d85e84,
-        type: 2}
-      propertyPath: m_Canvas
-      value: 
-      objectReference: {fileID: 12764746}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 58e0ca40c1fb2e949939024559d85e84, type: 2}
   m_IsPrefabAsset: 0

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Map xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <CMap>
+    <Filepath>Map2.unity</Filepath>
+    <MapName>New Map</MapName>
+    <buildID>3</buildID>
+    <XSize>34</XSize>
+    <YSize>21</YSize>
+  </CMap>
+  <CMap>
+    <Filepath>MapModel.unity</Filepath>
+    <MapName>New Map 2</MapName>
+    <buildID>2</buildID>
+    <XSize>34</XSize>
+    <YSize>21</YSize>
+  </CMap>
+</Map>

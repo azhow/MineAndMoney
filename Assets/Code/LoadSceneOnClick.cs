@@ -15,6 +15,7 @@ public class LoadSceneOnClick : MonoBehaviour {
     public void
         LoadRuntime()
     {
-        SceneManager.LoadScene(System.Convert.ToInt32(m_DropMenu.captionText.text));
+        SetMap mapSetter = m_DropMenu.GetComponent<SetMap>();
+        SceneManager.LoadScene(mapSetter.m_BuildIDSelected);
     }
 }
