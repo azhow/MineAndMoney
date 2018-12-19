@@ -13,7 +13,7 @@ public class LoadSceneOnClick : MonoBehaviour {
     }
 
     public void
-        LoadRuntime()
+        LoadRuntimePlayPanel()
     {
         SetMap mapSetter = m_DropMenu.GetComponent<SetMap>();
         SceneManager.LoadScene(mapSetter.m_BuildIDSelected);

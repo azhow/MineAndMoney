@@ -6,10 +6,14 @@ using System;
 
 public class SetMap : MonoBehaviour
 {
+    // Dropdown menu instance
     public UnityEngine.UI.Dropdown m_DropdownMenu;
+    // Default points to menu itself
     public int m_BuildIDSelected = 0;
 
+    // Used to populate the dropmenu
     private List<string> m_Indexes;
+    // Map objects used to get BuildID
     private List<CMap> m_Maps;
 
     public void Start()
@@ -30,6 +34,7 @@ public class SetMap : MonoBehaviour
     /// </summary>
     private void Populate()
     {
+        // Maps folder
         string dataPath = Application.dataPath + "/Maps";
         // XML Read
         XmlSerializer serializer = new XmlSerializer(typeof(CMapHolder));

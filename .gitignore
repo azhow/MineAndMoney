@@ -8,3 +8,4 @@ Library/
 Packages/
 
 Assembly-CSharp\.csproj
+/obj
