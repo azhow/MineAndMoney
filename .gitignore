@@ -9,3 +9,5 @@ Packages/
 
 Assembly-CSharp\.csproj
 /obj
+/Temp
+/Logs

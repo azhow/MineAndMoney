@@ -22,6 +22,8 @@ public class CResourceBehaviour : MonoBehaviour
     }
     // Decay amount per second
     public double m_DecayAmountPerSecond = 50;
+    // Resource owner (null = no owner)
+    public CEntity m_Owner = null;
 
     // Maximum quantity of resources
     private const int mc_MaxResource = 1000;
@@ -60,9 +62,14 @@ public class CResourceBehaviour : MonoBehaviour
             //Updates amount of resource
             double newValue = m_ResourceAmount - m_DecayAmountPerSecond * Time.deltaTime;
             // Check if there's enough resources to explore
-            if ( newValue >= 0 )
+            if (newValue >= 0)
             {
-                m_ResourceAmount -= m_DecayAmountPerSecond * Time.deltaTime;
+                m_ResourceAmount = newValue;
+                // If it has an owner, updates his inventory
+                if (m_Owner != null)
+                {
+                    m_Owner.AddToInventory(m_ResourceType, newValue);
+                }
             }
             // Sets to zero
             else
@@ -80,11 +87,19 @@ public class CResourceBehaviour : MonoBehaviour
     /// <param name="hasBuilding"></param>
     /// <returns></returns>
     public bool
-        GetResourceInfo( out EResources resourceType, out double resourceAmount, out bool hasBuilding )
+        GetResourceInfo( out EResources resourceType, out double resourceAmount, out bool hasBuilding, out string currOwner )
     {
         resourceType = m_ResourceType;
         resourceAmount = m_ResourceAmount;
         hasBuilding = m_HasBuilding;
+        if (m_Owner != null)
+        {
+            currOwner = m_Owner.Name;
+        }
+        else
+        {
+            currOwner = "No One";
+        }
 
         return true;
     }
@@ -97,5 +112,10 @@ public class CResourceBehaviour : MonoBehaviour
         GetResourceAmount()
     {
         return (int)Math.Round(m_ResourceAmount);
+    }
+
+    public void ChangeOwner(CEntity newOwner)
+    {
+        m_Owner = newOwner;
     }
 }

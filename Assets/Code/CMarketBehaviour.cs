@@ -48,6 +48,14 @@ public class CMarketBehaviour : MonoBehaviour
         return costValue;
     }
 
+    public double
+        TryBuy(CResourceBehaviour.EResources resource, double amount)
+    {
+        double costValue = m_ResourcePrices[resource] * amount;
+
+        return costValue;
+    }
+
     /// <summary>
     /// Sell operation.
     /// </summary>
@@ -63,6 +71,14 @@ public class CMarketBehaviour : MonoBehaviour
         return sellValue;
     }
 
+    public double
+        TrySell(CResourceBehaviour.EResources resource, double amount)
+    {
+        double sellValue = m_ResourcePrices[resource] * amount;
+
+        return sellValue;
+    }
+
     /// <summary>
     /// Updates price based on the operation and amount.
     /// </summary>
@@ -72,18 +88,15 @@ public class CMarketBehaviour : MonoBehaviour
     private void
         UpdatePrice( CResourceBehaviour.EResources resource, EMarketOperations operation, double amount )
     {
-        // How many batches of 100 were sold
-        double t = amount / 100;
-
         // If demand goes up the price goes up
         if ( operation == EMarketOperations.Buy )
         {
-            m_ResourcePrices[resource] *= 1.1 * t;
+            m_ResourcePrices[resource] += 1.1 * amount;
         }
         // If supply increases the price decreases
         else if ( operation == EMarketOperations.Sell )
         {
-            m_ResourcePrices[resource] *= 0.9 * t;
+            m_ResourcePrices[resource] -= 0.9 * amount;
         }
     }
 

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 /// Controls the market and interacts with the UI.
 /// Logic control is implemented in this layer.
 /// </summary>
-class CMarketController : MonoBehaviour
+public class CMarketController : MonoBehaviour
 {
     // UI Panel
     public RectTransform m_UIPanel;
@@ -58,7 +58,12 @@ class CMarketController : MonoBehaviour
         // Updates text entry in the canvas
         foreach (CResourceBehaviour.EResources resource in prices.Keys)
         {
-            m_Prices[resource].text = Convert.ToString(prices[resource]);
+            m_Prices[resource].text = prices[resource].ToString("0.##");
         }
+    }
+
+    public CMarketBehaviour GetMarketBehaviour()
+    {
+        return m_MarketBehaviour;
     }
 }
